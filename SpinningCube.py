@@ -1,5 +1,6 @@
 import pygame
 import numpy as np
+import sys
 from math import *
 
 WINDOW_SIZE =  800
@@ -23,7 +24,6 @@ cube_points[5] = [[1],[-1],[-1]]
 cube_points[6] = [[1],[1],[-1]]
 cube_points[7] = [[-1],[1],[-1]]
 
-
 def multiply_m(a, b):
     result = [[0 for col in range(len(b[0]))] for row in range(len(a))]
 
@@ -45,9 +45,34 @@ def connect_points(i, j, points):
 # Main Loop
 scale = 100
 angle_x = angle_y = angle_z = 0
+pygame.mouse.set_visible(True)
+pygame.event.set_grab(True)
+is_dragging = False
+
+
 while True:
     clock.tick(60)
     window.fill((0,0,0))
+
+    # Mouse Feature
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            is_dragging = True
+            pygame.event.set_grab(True)
+        if event.type == pygame.MOUSEBUTTONUP:
+            is_dragging = False
+            pygame.event.set_grab(False)
+
+    if is_dragging:
+        dx, dy = pygame.mouse.get_rel()
+        angle_x += dy * 0.01
+        angle_y -= dx * 0.01
+    else:
+        pygame.mouse.get_rel()
+
     rotation_x = [[1, 0, 0],
                     [0, cos(angle_x), -sin(angle_x)],
                     [0, sin(angle_x), cos(angle_x)]]
@@ -75,6 +100,7 @@ while True:
         i += 1
         pygame.draw.circle(window, (255, 0, 0), (x, y), 5)
 
+    # Connect the points to make a cube
     connect_points(0, 1, points)
     connect_points(0, 3, points)
     connect_points(0, 4, points)
@@ -87,25 +113,5 @@ while True:
     connect_points(4, 7, points)
     connect_points(6, 5, points)
     connect_points(6, 7, points)
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-        
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_r]:
-            angle_y = angle_x = angle_z = 0
-        if keys[pygame.K_a]:
-            angle_y += ROTATE_SPEED
-        if keys[pygame.K_d]:
-            angle_y -= ROTATE_SPEED      
-        if keys[pygame.K_w]:
-            angle_x += ROTATE_SPEED
-        if keys[pygame.K_s]:
-            angle_x -= ROTATE_SPEED
-        if keys[pygame.K_q]:
-            angle_z -= ROTATE_SPEED
-        if keys[pygame.K_e]:
-            angle_z += ROTATE_SPEED      
           
     pygame.display.update()
