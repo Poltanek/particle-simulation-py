@@ -2,17 +2,14 @@ import pygame
 import sys
 import random
 
-# Initialize pygame
 pygame.init()
 
 WIDTH = 600
 HEIGHT = 400
 
-# Set up the display
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Bouncing Ball")
 
-# Ball properties
 ball_colour = (255, 255, 255)
 ball_radius = 20
 ball_x = WIDTH // 2
@@ -20,7 +17,6 @@ ball_y = HEIGHT // 2
 ball_speed_x = 0.2
 ball_speed_y = 0.2
 
-# Main game loop
 game_running = True
 FPS = 60
 
@@ -66,4 +62,3 @@ FPS = 60
 
 while game_running:
     clock.tick(FPS)
-    # Rest of your code...
