@@ -6,7 +6,7 @@ from math import *
 WINDOW_SIZE =  800
 ROTATE_SPEED = 0.05
 window = pygame.display.set_mode( (WINDOW_SIZE, WINDOW_SIZE) )
-pygame.display.set_caption("Press A, D, W, S, Q, E to rotate, R to reset, move mouse to change scale")
+pygame.display.set_caption("Click and Drag to Rotate Cube")
 clock = pygame.time.Clock()
 
 
